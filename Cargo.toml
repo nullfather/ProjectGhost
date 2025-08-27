@@ -1,0 +1,22 @@
+[package]
+name = "projectghost"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["x86_64", "limine", "spin"]
+x86_64 = ["dep:x86_64"]
+limine = ["dep:limine"]
+spin = ["dep:spin"]
+ai_vault = ["dep:ring"]
+ghost_net = []
+
+[dependencies]
+x86_64 = { version = "0.14", optional = true, default-features = false }
+limine = { version = "0.1", optional = true }
+spin = { version = "0.9", optional = true }
+ring = { version = "0.16", optional = true, default-features = false, features = ["alloc"] }
+
+[[bin]]
+name = "projectghost"
+path = "src/kernel/main.rs"
