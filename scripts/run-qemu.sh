@@ -1,3 +1,4 @@
 #!/bin/sh
 set -e
-qemu-system-x86_64 -m 2G -serial stdio
+mkdir -p logs
+qemu-system-x86_64 -m 2048 -serial file:logs/qemu_output.txt -vga std -kernel build/iso/kernel

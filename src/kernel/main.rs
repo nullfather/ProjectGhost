@@ -11,6 +11,11 @@ use x86_64::PhysAddr;
 
 mod syscalls;
 mod scheduler;
+mod mem;
+#[path = "../drivers/disk.rs"]
+pub mod disk;
+#[path = "../drivers/net.rs"]
+pub mod net;
 #[path = "../userland/mod.rs"]
 mod userland;
 
@@ -52,6 +57,7 @@ static BOOTLOADER_INFO_REQUEST: LimineBootloaderInfoRequest = LimineBootloaderIn
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     unsafe {
+        mem::init();
         paging_init();
         idt_init();
         pit_init();
@@ -81,6 +87,7 @@ unsafe fn paging_init() {
 unsafe fn idt_init() {
     IDT.divide_error.set_handler_fn(exception);
     IDT.general_protection_fault.set_handler_fn(exception);
+    IDT.page_fault.set_handler_fn(exception);
     IDT[32].set_handler_fn(scheduler::pit_handler);
     IDT[0x80].set_handler_fn(syscall_handler);
     IDT.load();

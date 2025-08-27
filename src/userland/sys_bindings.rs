@@ -26,6 +26,11 @@ pub fn load_ai_model(name: *const u8, buf: *mut u8, len: u64) -> u64 {
     syscall(6, name as u64, buf as u64, len, 0)
 }
 
+pub fn enable_isolation() { let _ = syscall(7, 0, 0, 0, 0); }
+pub fn enable_vpn() { let _ = syscall(8, 0, 0, 0, 0); }
+pub fn enable_tor() { let _ = syscall(9, 0, 0, 0, 0); }
+pub fn get_net_mode() -> u64 { syscall(10, 0, 0, 0, 0) }
+
 #[inline(always)]
 fn syscall(n: u64, a: u64, b: u64, c: u64, d: u64) -> u64 {
     let ret: u64;

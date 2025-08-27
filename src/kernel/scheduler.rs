@@ -3,16 +3,17 @@ use x86_64::structures::idt::InterruptStackFrame;
 
 pub type Entry = extern "C" fn();
 
-pub struct Tcb {
+pub struct TaskControlBlock {
     pub entry: Entry,
     pub active: bool,
+    pub pid: u32,
 }
 
-static mut TASKS: [Tcb; 4] = [
-    Tcb { entry: idle, active: true },
-    Tcb { entry: idle, active: false },
-    Tcb { entry: idle, active: false },
-    Tcb { entry: idle, active: false },
+static mut TASKS: [TaskControlBlock; 4] = [
+    TaskControlBlock { entry: idle, active: true, pid: 0 },
+    TaskControlBlock { entry: idle, active: false, pid: 1 },
+    TaskControlBlock { entry: idle, active: false, pid: 2 },
+    TaskControlBlock { entry: idle, active: false, pid: 3 },
 ];
 
 static CURRENT: AtomicUsize = AtomicUsize::new(0);

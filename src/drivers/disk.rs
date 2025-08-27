@@ -1,13 +1,14 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-static mut STORAGE: [u8; 4096] = [0; 4096];
+const CAPACITY: usize = 4096;
+static mut STORAGE: [u8; CAPACITY] = [0; CAPACITY];
 static LEN: AtomicUsize = AtomicUsize::new(0);
 const KEY: u8 = 0xAA;
 
 pub fn create_vault() {}
 
 pub fn store_model(data: &[u8]) {
-    let len = data.len().min(4096);
+    let len = data.len().min(CAPACITY);
     unsafe {
         for i in 0..len {
             STORAGE[i] = data[i] ^ KEY;
