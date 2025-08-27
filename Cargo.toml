@@ -1,0 +1,15 @@
+[package]
+name = "projectghost"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+x86_64 = "0.14"
+spin = "0.9"
+
+[profile.release]
+panic = "abort"
+
+[[bin]]
+name = "kernel"
+path = "src/kernel/main.rs"
